@@ -1,23 +1,34 @@
 <?php
 
-	session_start();
+	include('connection.php');
 
 	if (isset($_GET['delete'])) {
 
-		array_splice($_SESSION['todoCollection'], $_GET['pos'], 1);
+		$pos = $_GET['pos'];
+
+		$query = "DELETE FROM `todoData` WHERE `todoData`.`id` = $pos";
+
+		mysqli_query($conn, $query);
 
 		header("Location: todo.php");
 	}
 
 	if (isset($_GET['done'])) {
 
-		if ($_SESSION['todoCollection'][$_GET['pos']]['isCompleted'] == 1) {
-			$_SESSION['todoCollection'][$_GET['pos']]['isCompleted'] = 0;
-		} else {
-			$_SESSION['todoCollection'][$_GET['pos']]['isCompleted'] = 1;
-		}
+		$pos = $_GET['pos'];
+		$isCompleted = $_GET['isComplete'];
 
+		if ($isCompleted == 1) {
+
+			$query = "UPDATE `todoData` SET `isCompleted` = '0' WHERE `todoData`.`id` = $pos;";
+			mysqli_query($conn, $query);
+
+		} else {
+
+			$query = "UPDATE `todoData` SET `isCompleted` = '1' WHERE `todoData`.`id` = $pos;";
+			mysqli_query($conn, $query);
+
+		}
 		header("Location: todo.php");
 	}
-
 ?>

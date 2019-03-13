@@ -1,10 +1,9 @@
 <?php
 
-	session_start();
+	include('connection.php');
 
-	if(!isset($_SESSION['todoCollection'])) {
-		$_SESSION['todoCollection'] = [];
-	}
+	$query = "SELECT * FROM todoData";
+	$result = mysqli_query($conn, $query);
 
 ?>
 
@@ -30,29 +29,42 @@
 			
 			<div>
 				<ul>
-					<?php for($i = 0; $i < sizeof($_SESSION['todoCollection']); $i++) { ?>
-					<li>
-						<form action="delete_done.php" method="get">
-							<input style="display: none;" type="number" name="pos" value="<?php echo $i; ?>">
-							<?php
-								if ($_SESSION['todoCollection'][$i]['isCompleted'] == 0) {
-									echo "<p> ". $_SESSION['todoCollection'][$i]['caption'] . "</p>";
-									echo "<input type='submit' name='done' value='Done'>";
-								} else {
-									echo "<p style='text-decoration: line-through;'> ". $_SESSION['todoCollection'][$i]['caption'] . "</p>";
-									echo "<input type='submit' name='done' value='Pending'>";
-								}
-							?>
-							<button type="submit" class="close" name="delete">
-								&times;
-							</button>
-						</form>
-					</li>
-					<?php } ?>
+					
+
+					<?php if (mysqli_num_rows($result) > 0) { ?>
+						
+						<?php while ( $row = mysqli_fetch_assoc($result) ) { ?>
+
+							<li>
+								<form action="delete_done.php" method="get">
+									<input style="display: none;" type="number" name="pos" value="<?php echo $row["id"]; ?>">
+									<input style="display: none;" type="number" name="isComplete" value="<?php echo $row["isCompleted"]; ?>">
+
+									<?php
+										if ($row['isCompleted'] == 0) {
+											echo "<p> ". $row['caption'] . "</p>";
+											echo "<input type='submit' name='done' value='Done'>";
+										} else {
+											echo "<p style='text-decoration: line-through;'> ". $row['caption'] . "</p>";
+											echo "<input type='submit' name='done' value='Pending'>";
+										}
+									?>
+									<button type="submit" name="delete">
+										Delete
+									</button>
+								</form>
+							</li>
+						<?php } ?>
+
+						<?php 
+
+						} else {
+							echo "<p>Add ToDos</p>";
+						}
+						mysqli_close($conn);
+						?>
 				</ul>
 			</div>
-
-			<p><a href="logout.php">Exit Session</a></p>
 		</div>
 
 	</div>
