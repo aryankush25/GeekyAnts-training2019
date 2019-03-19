@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Index page</h1>
+	<form onsubmit="addItem(event)">
+		<input type="" name="task">
+		<button>submmit</button>
+	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+
+		function addItem(event) {
+			event.preventDefault();
+			console.log('here');
+
+			var myKeyVals = { addTodo : 'enetred task'}
+
+			$.ajax({
+			      type: 'POST',
+			      url: "http://todo_list_sql.local.geekydev.com/storeitem.php",
+			      data: myKeyVals,
+			      dataType: "text",
+			      success: function(resultData) { alert("Save Complete") }
+			});
+		}
+
+	    // $.ajax({url: "http://todo_list_sql.local.geekydev.com/storeitem.php", success: function(result){
+	    //   console.log(result);
+	    // }});
+	</script>
+</body>
+</html>

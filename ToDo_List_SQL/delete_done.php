@@ -29,6 +29,7 @@
 			mysqli_query($conn, $query);
 
 		}
+		
 		header("Location: todo.php");
 	}
 ?>
