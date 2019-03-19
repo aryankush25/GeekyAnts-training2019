@@ -1,0 +1,26 @@
+
+.main-body{
+    background: darkgray;
+    height: 100%;
+    width: 100%;
+}
+
+.todosHeading {
+    color: rgba(175, 47, 47, 0.15);
+    font-size: 100px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.inputTodo {
+
+    width: 400px;
+    height: 60px;
+    padding: 10px 40px;;
+    
+}
+
+
+.text-line-thouugh {
+	text-decoration: line-through;
+}
